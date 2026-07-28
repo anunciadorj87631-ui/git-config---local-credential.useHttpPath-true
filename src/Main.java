@@ -1,134 +1,138 @@
 import java.util.Scanner;
 
-public class Main {
+public class ToolBox {
+
+    static Scanner scanner = new Scanner(System.in);
+
+    // Simple class for object mutation demo
+    static class Box {
+        int value;
+
+        Box(int value) {
+            this.value = value;
+        }
+    }
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        final int MAX = 10;
-        int[] id = new int[MAX];
-        String[] name = new String[MAX];
-        int[] age = new int[MAX];
-        String[] course = new String[MAX];
-        double[] grade = new double[MAX];
-        boolean[] enrolled = new boolean[MAX];
-
-        int count = 0, choice;
+        int choice;
 
         do {
-            System.out.println("\n===== STUDENT INFORMATION SYSTEM =====");
-            System.out.println("[1] Add Student");
-            System.out.println("[2] View All Students");
-            System.out.println("[3] Search Student by ID");
-            System.out.println("[4] View Statistics");
-            System.out.println("[5] Exit");
-            System.out.print("Choice: ");
-            choice = sc.nextInt();
+            System.out.println("\n===== JAVA TOOLBOX =====");
+            System.out.println("1 - Greet me");
+            System.out.println("2 - Area (square or rectangle)");
+            System.out.println("3 - Sum of numbers");
+            System.out.println("4 - Swap demo (pass-by-value)");
+            System.out.println("5 - Box demo (object mutation)");
+            System.out.println("0 - Exit");
+            System.out.print("Choose an option: ");
+
+            choice = scanner.nextInt();
+            scanner.nextLine();
 
             switch (choice) {
+
                 case 1:
-                    if (count == MAX) {
-                        System.out.println("Student list is full!");
-                        break;
-                    }
-
-                    System.out.print("ID: ");
-                    id[count] = sc.nextInt();
-
-                    sc.nextLine();
-                    System.out.print("Name: ");
-                    name[count] = sc.nextLine();
-
-                    System.out.print("Age: ");
-                    age[count] = sc.nextInt();
-
-                    sc.nextLine();
-                    System.out.print("Course: ");
-                    course[count] = sc.nextLine();
-
-                    System.out.print("Grade: ");
-                    grade[count] = sc.nextDouble();
-
-                    System.out.print("Enrolled (true/false): ");
-                    enrolled[count] = sc.nextBoolean();
-
-                    count++;
-                    System.out.println("Student added!");
+                    System.out.print("Enter your name: ");
+                    String name = scanner.nextLine();
+                    System.out.println(greet(name));
                     break;
 
                 case 2:
-                    if (count == 0) {
-                        System.out.println("No records.");
-                        break;
-                    }
+                    System.out.print("Sides (1 = square, 2 = rectangle): ");
+                    int type = scanner.nextInt();
 
-                    for (int i = 0; i < count; i++) {
-                        String standing;
+                    if (type == 1) {
+                        System.out.print("Enter side length: ");
+                        double side = scanner.nextDouble();
+                        System.out.println("Area of square = " + area(side));
+                    } else if (type == 2) {
+                        System.out.print("Enter length: ");
+                        double length = scanner.nextDouble();
 
-                        if (grade[i] >= 90)
-                            standing = "Dean's Lister";
-                        else if (grade[i] >= 75)
-                            standing = "Passed";
-                        else
-                            standing = "Failed";
+                        System.out.print("Enter width: ");
+                        double width = scanner.nextDouble();
 
-                        System.out.println("\nID: " + id[i]);
-                        System.out.println("Name: " + name[i]);
-                        System.out.println("Grade: " + grade[i]);
-                        System.out.println("Standing: " + standing);
+                        System.out.println("Area of rectangle = " + area(length, width));
+                    } else {
+                        System.out.println("Invalid choice.");
                     }
                     break;
 
                 case 3:
-                    System.out.print("Enter ID: ");
-                    int search = sc.nextInt();
-                    boolean found = false;
-
-                    for (int i = 0; i < count; i++) {
-                        if (id[i] == search) {
-                            System.out.println("Name: " + name[i]);
-                            System.out.println("Course: " + course[i]);
-                            System.out.println("Grade: " + grade[i]);
-                            found = true;
-                        }
-                    }
-
-                    if (!found)
-                        System.out.println("Student not found.");
+                    System.out.println("Sum of 4, 8, 15 = " + sum(4, 8, 15));
+                    System.out.println("Sum of 2, 4, 6, 8, 10 = " + sum(2, 4, 6, 8, 10));
                     break;
 
                 case 4:
-                    if (count == 0) {
-                        System.out.println("No records.");
-                        break;
-                    }
+                    int x = 5;
+                    int y = 9;
 
-                    double total = 0, topGrade = grade[0];
-                    String topStudent = name[0];
-
-                    for (int i = 0; i < count; i++) {
-                        total += grade[i];
-
-                        if (grade[i] > topGrade) {
-                            topGrade = grade[i];
-                            topStudent = name[i];
-                        }
-                    }
-
-                    System.out.println("Total Students: " + count);
-                    System.out.println("Average Grade: " + (total / count));
-                    System.out.println("Top Student: " + topStudent + " (" + topGrade + ")");
+                    System.out.println("Before swap: x = " + x + ", y = " + y);
+                    swap(x, y);
+                    System.out.println("After swap: x = " + x + ", y = " + y +
+                            " (unchanged - Java is pass-by-value)");
                     break;
 
                 case 5:
+                    Box box = new Box(10);
+
+                    System.out.println("Before: box.value = " + box.value);
+                    addToBox(box, 25);
+                    System.out.println("After: box.value = " + box.value +
+                            " (changed - the object is shared)");
+                    break;
+
+                case 0:
                     System.out.println("Goodbye!");
                     break;
 
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println("Invalid option.");
             }
 
-        } while (choice != 5);
+        } while (choice != 0);
 
-        sc.close();
+        scanner.close();
+    }
+
+    // Task 1 - Parameter + Return
+    static String greet(String name) {
+        return "Hello, " + name + "! Welcome to my Java Toolbox.";
+    }
+
+    // Task 2 - Overloading (Square)
+    static double area(double side) {
+        return side * side;
+    }
+
+    // Task 2 - Overloading (Rectangle)
+    static double area(double length, double width) {
+        return length * width;
+    }
+
+    // Task 3 - Varargs
+    static int sum(int... numbers) {
+        int total = 0;
+
+        for (int n : numbers) {
+            total += n;
+        }
+
+        return total;
+    }
+
+    // Task 4 - Pass-by-value
+    static void swap(int a, int b) {
+        int temp = a;
+        a = b;
+        b = temp;
+
+        System.out.println("(inside swap) a = " + a + ", b = " + b);
+    }
+
+    // Task 5 - Object mutation
+    static void addToBox(Box box, int amount) {
+        box.value = box.value + amount;
     }
 }
