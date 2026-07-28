@@ -4,7 +4,6 @@ public class ToolBox {
 
     static Scanner scanner = new Scanner(System.in);
 
-    // Simple class for object mutation demo
     static class Box {
         int value;
 
@@ -96,22 +95,18 @@ public class ToolBox {
         scanner.close();
     }
 
-    // Task 1 - Parameter + Return
     static String greet(String name) {
         return "Hello, " + name + "! Welcome to my Java Toolbox.";
     }
 
-    // Task 2 - Overloading (Square)
     static double area(double side) {
         return side * side;
     }
 
-    // Task 2 - Overloading (Rectangle)
     static double area(double length, double width) {
         return length * width;
     }
 
-    // Task 3 - Varargs
     static int sum(int... numbers) {
         int total = 0;
 
@@ -122,7 +117,6 @@ public class ToolBox {
         return total;
     }
 
-    // Task 4 - Pass-by-value
     static void swap(int a, int b) {
         int temp = a;
         a = b;
@@ -131,7 +125,6 @@ public class ToolBox {
         System.out.println("(inside swap) a = " + a + ", b = " + b);
     }
 
-    // Task 5 - Object mutation
     static void addToBox(Box box, int amount) {
         box.value = box.value + amount;
     }
