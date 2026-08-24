@@ -7,7 +7,7 @@ public class ATMApp {
         ATMService atm = new ATMService();
 
 
-        Account account = new SavingsAccount("SA-1001", "Juan Dela Cruz", 5000.0, 0.02);
+        Account account = new SavingsAccount("SA-1001", "Raisen Jay Anunciado", 5000.0, 0.02);
 
         boolean running = true;
 
