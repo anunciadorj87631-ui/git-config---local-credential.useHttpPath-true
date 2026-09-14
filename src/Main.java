@@ -7,32 +7,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         PaymentGateway gateway = new PaymentGateway();
 
-        gateway.add(new GCashPayment(
-                1001,
-                "Ana",
-                1500.00,
-                "0917-555-0134"
-        ));
-
-        gateway.add(new MayaPayment(
-                1002,
-                "Jerome",
-                899.50,
-                "jerome@liceo.edu.ph"
-        ));
-
-        gateway.add(new CashPayment(
-                1003,
-                "Liza",
-                250.00
-        ));
-
         int choice;
 
         do {
             System.out.println();
             System.out.println("================================");
-            System.out.println("          LICEO PAY");
+            System.out.println("           LICEO PAY");
             System.out.println("================================");
             System.out.println("1. Make Payment");
             System.out.println("2. Show All Receipts");
@@ -63,15 +43,7 @@ public class Main {
                     System.out.println("3. Cash");
                     System.out.print("Choose payment method: ");
 
-                    int type;
-
-                    while (!scanner.hasNextInt()) {
-                        System.out.println("Invalid input.");
-                        scanner.next();
-                        System.out.print("Choose payment method: ");
-                    }
-
-                    type = scanner.nextInt();
+                    int type = scanner.nextInt();
                     scanner.nextLine();
 
                     System.out.print("Enter payment ID: ");
@@ -85,46 +57,40 @@ public class Main {
                     double amount = scanner.nextDouble();
                     scanner.nextLine();
 
+                    Payment payment;
+
                     if (type == 1) {
                         System.out.print("Enter mobile number: ");
                         String mobile = scanner.nextLine();
 
-                        Payment payment =
-                                new GCashPayment(id, name, amount, mobile);
-
-                        gateway.add(payment);
-
-                        System.out.println();
-                        payment.printReceipt();
-                        payment.printThankYou();
+                        payment = new GCashPayment(
+                                id, name, amount, mobile
+                        );
 
                     } else if (type == 2) {
                         System.out.print("Enter email: ");
                         String email = scanner.nextLine();
 
-                        Payment payment =
-                                new MayaPayment(id, name, amount, email);
-
-                        gateway.add(payment);
-
-                        System.out.println();
-                        payment.printReceipt();
-                        payment.printThankYou();
+                        payment = new MayaPayment(
+                                id, name, amount, email
+                        );
 
                     } else if (type == 3) {
-
-                        Payment payment =
-                                new CashPayment(id, name, amount);
-
-                        gateway.add(payment);
-
-                        System.out.println();
-                        payment.printReceipt();
-                        payment.printThankYou();
+                        payment = new CashPayment(
+                                id, name, amount
+                        );
 
                     } else {
                         System.out.println("Invalid payment method.");
+                        break;
                     }
+
+                    gateway.add(payment);
+
+                    System.out.println();
+                    payment.printReceipt();
+                    payment.printThankYou();
+
                     break;
 
                 case 2:
@@ -135,23 +101,16 @@ public class Main {
 
                 case 3:
                     System.out.println();
-                    System.out.print("Enter payment ID to find: ");
-
-                    while (!scanner.hasNextInt()) {
-                        System.out.println("Invalid ID.");
-                        scanner.next();
-                        System.out.print("Enter payment ID to find: ");
-                    }
+                    System.out.print("Enter payment ID: ");
 
                     int searchId = scanner.nextInt();
-                    scanner.nextLine();
 
                     Payment found = gateway.findById(searchId);
 
                     if (found != null) {
                         System.out.println("Payment found:");
                         System.out.printf(
-                                "[%d] %s - %s - PHP %.2f%n",
+                                "[%d] %-6s %-10s PHP %10.2f%n",
                                 found.getId(),
                                 found.provider(),
                                 found.getPayerName(),
@@ -160,6 +119,7 @@ public class Main {
                     } else {
                         System.out.println("Payment not found.");
                     }
+
                     break;
 
                 case 4:
@@ -187,6 +147,7 @@ public class Main {
                     break;
 
                 case 0:
+                    System.out.println();
                     System.out.println("Thank you for using LICEO PAY.");
                     break;
 
