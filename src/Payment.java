@@ -1,46 +1,79 @@
-public abstract class Payment {
+import java.util.ArrayList;
 
-    private final int id;
-    private String payerName;
-    private double amount;
+public class PaymentGateway {
 
-    public Payment(int id, String payerName, double amount) {
-        this.id = id;
-        this.payerName = payerName;
-        this.amount = amount;
+    private ArrayList<Payment> payments = new ArrayList<>();
+
+    public void add(Payment payment) {
+        payments.add(payment);
     }
 
-    public int getId() {
-        return id;
+    public int count() {
+        return payments.size();
     }
 
-    public String getPayerName() {
-        return payerName;
+    public void processAll() {
+        if (payments.isEmpty()) {
+            System.out.println("No payments have been made yet.");
+            return;
+        }
+
+        for (Payment p : payments) {
+            p.printReceipt();
+            p.printThankYou();
+        }
     }
 
-    public double getAmount() {
-        return amount;
+    public void showServiceFees() {
+        if (payments.isEmpty()) {
+            System.out.println("No payments have been made yet.");
+            return;
+        }
+
+        for (Payment p : payments) {
+            System.out.printf(
+                    "[%d] %-6s  standard 2%%: PHP %8.2f   student 1%%: PHP %8.2f%n",
+                    p.getId(),
+                    p.provider(),
+                    p.serviceFee(),
+                    p.serviceFee(0.01)
+            );
+        }
     }
 
-    public abstract void pay();
+    public Payment findById(int id) {
+        for (Payment p : payments) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
 
-    public abstract String provider();
-
-    public double serviceFee() {
-        return amount * 0.02;
+        return null;
     }
 
-    public double serviceFee(double rate) {
-        return amount * rate;
+    public double totalCollected() {
+        double total = 0;
+
+        for (Payment p : payments) {
+            total += p.getAmount();
+        }
+
+        return total;
     }
 
-    public void printReceipt() {
-        System.out.printf("[%d] %-6s %-10s PHP %10.2f%n",
-                id, provider(), payerName, amount);
-        pay();
-    }
+    public void refundAll() {
+        int found = 0;
 
-    public void printThankYou() {
-        System.out.println("   Thank you for your payment.");
+        for (Payment p : payments) {
+            if (p instanceof Refundable) {
+                Refundable r = (Refundable) p;
+                r.printRefundNotice();
+                found++;
+            }
+        }
+
+        if (found == 0) {
+            System.out.println("No refundable payments were found.");
+        }
     }
 }
