@@ -11,7 +11,9 @@ public class CashPayment extends Payment {
 
     @Override
     public void pay() {
-        System.out.printf("   Cash: PHP %.2f received. Please get your change.%n",
-                getAmount());
+        System.out.printf(
+                "   Cash: PHP %.2f received. Please get your change.%n",
+                getAmount()
+        );
     }
 }
