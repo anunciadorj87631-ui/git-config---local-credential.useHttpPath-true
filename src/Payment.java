@@ -22,26 +22,21 @@ public abstract class Payment {
         return amount;
     }
 
-    // TODO 4
     public abstract void pay();
 
     public abstract String provider();
 
-    // Version 1
     public double serviceFee() {
         return amount * 0.02;
     }
 
-    // TODO 5
     public double serviceFee(double rate) {
         return amount * rate;
     }
 
-    // TODO 6
     public void printReceipt() {
         System.out.printf("[%d] %-6s %-10s PHP %10.2f%n",
                 id, provider(), payerName, amount);
-
         pay();
     }
 
