@@ -1,5 +1,5 @@
 public interface Refundable {
-  
+
     String refund();
 
     default void printRefundNotice() {
